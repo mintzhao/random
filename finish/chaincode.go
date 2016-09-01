@@ -22,14 +22,14 @@ import (
 	"strconv"
 )
 
-type randomChaincode struct {
+type RandomChaincode struct {
 }
 
-func (c *randomChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (c *RandomChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	return nil, stub.PutState("random", []byte(strconv.Itoa(rand.Intn(100))))
 }
 
-func (c *randomChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (c *RandomChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	r, err := stub.GetState("random")
 	if err != nil {
 		return nil, err
@@ -39,12 +39,12 @@ func (c *randomChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	return nil, stub.PutState("random", []byte("100"))
 }
 
-func (c *randomChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (c *RandomChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	return stub.GetState("random")
 }
 
 func main() {
-	err := shim.Start(new(randomChaincode))
+	err := shim.Start(new(RandomChaincode))
 	if err != nil {
 		fmt.Printf("start chaincode err: %v\n", err)
 	}
